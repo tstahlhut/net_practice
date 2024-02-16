@@ -302,5 +302,100 @@ For our five networks, we take the first five:
 
 </details>
 
+### Reverse Subnetting
+
+Reverse subnetting is when you have an IP address, subnet mask and need to know if another IP address is part of the network or what the broadcast IP address is of that network. To figure this out you need ot find out the range of the network the given IP address lives in. To do that follow these steps:
+
+	1. Write down the subnet mask in binary. 
+	2. Write down the octets of the IP address that always belong to the network (255 in subnet mask).
+	3. Find the increment in the octet that is mixed (ones and zeros). This is the range of the network.
+	4. Start the first network at 0 and then increment by the increment. 
+	5. Repeat until you find the network the IP address belongs to. 
+
+<details> <summary> Example of Reverse Subnetting </summary>
+
+We have the following IP address
+
+		48.25.24.71/21
+
+The subnet mask is 21 bits with ones and the rest zeros.
+
+		11111111.11111111.11111000.00000000
+		255.255.248.0
+
+Thus, the first 2 octets always stay the same. So, we start the first network at
+
+		48.25.0.0
+
+Now we need to find the increment, which is the last bit with a "1" in the subnet mask.
+
+		1	1	1	1	1	0	0	0
+		128	64	32	16	8	4	2	1
+
+In this case, the increment is 8. It shows us the range of the networks. As we increment in the 3rd octet, the fourth octet will be 0 in the beginning and 255 at the end. 
+
+		48.25.0.0 - 48.25.7.255
+
+And we continue incrementing until we find the range into which our IP address fits. 
+
+		48.25.8.0 - 48.25.15.255
+		48.25.16.0 - 48.25.23.255
+		48.25.24.0 - 48.25.31.255
+
+Our IP address is part of the third network. And as we know that the last IP address of a network is the broadcast address, 48.25.31.255 is our broadcast address.
+
+</details>
+
+### VLSM (Variable Length Subnet Mask(ing))
+
+What if we need subnetworks of different sizes. How do we divide a network then?
+
+We start where the subnet mask allows us and then divide the network into subnets, starting from the biggest to the smallest. It is as easy as that :)
+
+<details> <summary> Example </summary> 
+
+This example is directly derived from [Network Chuck](https://www.youtube.com/watch?v=OD2vG5st4zI). I recommend to watch the full series on subnetting. It enabled me to write this chapter and understand subnetting.
+
+We have one network which should be divided into 4 subnetworks of different sizes:
+
+		network:	172.21.42.0/24
+		mask:		255.255.255.0
+		1 for 26 servers
+		1 for 117 workers
+		1 for 10 guests
+		1 for 57 robots
+
+We start where the mask allows us:
+
+		172.21.42.0
+
+Then we create the first network for the highest number of addresses needed (the workers):
+
+		hosts required:	117 -> 128
+		range:			0 + 128		172.21.42.0 - 172.21.42.127
+		network 1:					172.21.42.0/25
+
+Then the second for the robots. We start where network 1 ended.
+
+		hosts required:	57 -> 64
+		range:			128 + 64	172.21.42.128 - 172.21.42.191
+		network 1:					172.21.42.128/26
+
+Then the third for the servers:
+
+		hosts required:	26 -> 32
+		range:			192 + 32	172.21.42.192 - 172.21.42.223
+		network 1:					172.21.42.192/27
+
+And lastly, the fourth network for the guests:
+
+		hosts required:	10 -> 16
+		range:			224 + 16	172.21.42.224 - 172.21.42.239
+		network 1:					172.21.42.224/28
+
+Be aware that the subnet mask changes depending on the range of the network. 
+
+</details>
+
 
 		
