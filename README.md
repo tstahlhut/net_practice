@@ -1,7 +1,7 @@
 # net_practice
 A 42 project to learn about networks
 
-### Level 1: What is an IP Address?
+## Level 1: What is an IP Address?
 
 IP address is short for Internet Protocol Address. It is the address which identifies a device in a computer network that uses the Internet Protocol suite (TCP/IP) for communication, such as the internet.
 
@@ -126,7 +126,14 @@ You may also use any other IP address starting with 127 to test your network.
 
 </details>
 
-### Bits and Bytes: Subnetting
+## Level 2: Welcome to Subnetting!
+
+		IPv4: 192.168.1.0
+		Mask: 255.255.255.0
+
+So far we know that a subnet mask like the above allows us a range of IP addresses between 192.168.1.0 and 192.168.1.255. Whereas the first (0) and the last (255) are reserved and the the second (1) typically stands for the router. We have 253 available IP addresses. But what if we need more hosts on our network or more networks? Then we enter the world of subnetting and with it the world of binary.
+
+### Bits and Bytes
 
 Needless to say, that IPv4 addresses are in reality 32 bits and thus in binary. In order to really work with IP addresses (keyword: subnetting) you need to calculate with them in binary. 
 
@@ -170,14 +177,130 @@ Following this method we will get the following IP address:
 
 </details>
 
-For subnetting it is best to work with the binary representation of IP addresses. If we look for example at a subnet mask, the division between network and host portion becomes more obvious:
+For subnetting we need to work with the binary representation of IP addresses. If we look for example at a subnet mask, the division between network and host portion becomes more obvious:
 
 		255.255.255.0
 		11111111.11111111.11111111.00000000
 
-All the bits with a 1 are reserved for the network and all the bits with a 0 may be used to generate IP addresses for the host interfaces in the network. In this network are 254 (2^8 - 2) IP addresses available. If we need more, we have to do subnetting, which just means that we take away bits reserved for the network:
+All the bits with a 1 are reserved for the network (24 bits) and all the bits with a 0 may be used to generate IP addresses for the host interfaces in the network (8 bits). This leads us to another way of writing a subnet mask:
+
+		/24
+
+This indicates the number of bits reserved for the network. Thus, the two representations below provide us with the exact same information:
+
+		192.168.1.0
+		255.255.255.0
+
+		192.168.1.0/24
+
+### How to calculate the number of hosts in a network?
+
+If you want to know the amount of host IP addresses a network can have, you count the zeros in the subnet mask and take 2 to the power of the number of zeros:
+
+		11111111.11111111.11111111.00000000
+		2 ^ 8 = 254
+
+Then you substract 2, one for the network address and one for the broadcasting address.
+
+		2 ^ number_of_zeros_in_subnet_mask - 2
+
+This network allows 254 host IP addresses. But what if we need more?
+
+### How to broaden the network to get more host IP addresses
+
+If we need more IP addresses, we have to do subnetting, which just means that we take away bits reserved for the network (the ones):
 
 		11111111.11111111.11111110.00000000
 		255.255.254.0
 
 This subnet mask allows us 510 (2^9 - 2) IP addresses for our home network. 
+
+### How to divide one network into several?
+
+If we have the following network but need several networks, we can divide that network.
+
+		192.168.1.0/24
+
+When we want to broaden a network, we take away bits from the network portion and assign it to the host portion (we change bits with 1 into 0). If we want to divide a network, we do the reverse: we change zeros to ones. 
+
+The number of bits we need to change depends on how many subnetworks we want to create. As we are working in binary, we can only divide the network in 2. This means that if we change 1 bit, we can create two subnetworks.
+
+<details> <summary> Example: Divide 1 network into 2 networks </summary>
+
+before: 1 network with 254 addresses
+
+		192.168.1.0/24
+		11111111.11111111.11111111.00000000
+		range: 192.168.1.0 - 192.168.1.255
+
+after:	2 networks with each 126 networks
+
+		192.168.1.0/25
+		11111111.11111111.11111111.10000000
+		network 1: 192.168.1.0 - 192.168.1.127
+		network 2: 192.168.1.128 - 192.168.1.255 
+
+</details>
+
+
+If we want to have even more networks, let's say 3, we have to divide them again. But as we can only divide by 2, this will leave us with 4 networks (2^2).
+
+<details> <summary> Example: Divide 1 network into 3 networks </summary>
+
+before: 1 network with 254 addresses
+
+		192.168.1.0/24
+		11111111.11111111.11111111.00000000
+		range: 192.168.1.0 - 192.168.1.255
+
+after:	4 networks with each 62 addresses
+
+		192.168.1.0/26
+		11111111.11111111.11111111.11000000
+		network 1: 192.168.1.0 - 192.168.1.63		(00000000 - 00111111)
+		network 2: 192.168.1.64 - 192.168.1.127		(01000000 - 01111111)
+		network 3: 192.168.1.128 - 192.168.1.191	(10000000 - 10110101)
+		network 4: 192.168.1.192 - 192.168.1.255	(11000000 - 11111111)
+
+As always the first IP address is the IP address for the network, we just take this first IP address from each range to refer to the network and add the subnet mask (number of bits with 1):
+
+		network 1: 192.168.1.0/26 (00 00 00 00)
+		network 2: 192.168.1.64/26 (01 00 00 00)
+		network 3: 192.168.1.128/26 (10 00 00 00)
+
+Done! </details>
+
+And this logic goes on and on ...
+
+		nb of bits changed from 0 to 1		0	1	2	3	4	5	6	7	8
+		networks							1	2	4	8	16	32	64	128	256
+		addresses in each network			256	128	64	32	16	8	4	2	1
+
+
+<details> <summary> Example: Divide 1 network into 5 networks </summary>
+
+In order to get 5 networks, we have to divide again. Now we divided 3 times, which means that we have to change 3 bits in the subnet mask. Now, we have 8 networks with 32 addresses each (meaning 30 addresses we can use):
+
+		11111111.11111111.11111111.11100000
+		192.168.1.0/27
+		network 1: 192.168.1.0 - 192.168.1.31
+		network 2: 192.168.1.32 - 192.168.1.63
+		network 3: 192.168.1.64 - 192.168.1.95
+		network 4: 192.168.1.96 - 192.168.1.127
+		network 5: 192.168.1.128 - 192.168.1.159
+		network 6: 192.168.1.160 - 192.168.1.191
+		network 7: 192.168.1.192 - 192.168.1.223
+		network 8: 192.168.1.224 - 192.168.1.255
+
+For our five networks, we take the first five:
+
+		network 1: 192.168.1.0/27
+		network 2: 192.168.1.32/27
+		network 3: 192.168.1.64/27
+		network 4: 192.168.1.96/27
+		network 5: 192.168.1.128/27
+
+</details>
+
+
+		
