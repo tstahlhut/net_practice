@@ -496,9 +496,29 @@ A router connects networks with networks. Therefore a router does operate on the
 
 The process of determining the path an IP packet should take is called **routing**. For this process routers use a **routing table**.
 
-## Routing Table
+### Routing Table
 
-Each router has a routing table which is like a map it uses to forward packets. 
+Each router has a routing table which is like a map it uses to forward IP packets. In this routing table, the router stores all the routes it knows. So, when an IP packet arrives, it searches for the destination IP address in its routing table and forwards it. If the IP address is not listed in the routing table, the router uses its default gateway.  
+
+Routers can learn new paths by two methods: dynamic routing and static routing. 
+
+#### Pre-configure a router
+
+Go to global config
+
+	conf t
+
+Configure interface(s) and enable it
+
+	interface g0/0
+ 	ip address 192.168.1.1 255.255.255.0
+  	no shutdown
+
+    	interface g0/1
+     	ip address 192.168.2.1 255.255.255.0
+      	no shutdown
+
+       	show ip int br
 
 
 The model for communcation which is used nowadays is TCP/IP.
