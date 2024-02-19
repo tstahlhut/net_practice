@@ -488,6 +488,12 @@ A network switch is a networking hardware with multiple ports (8 to 80 and more)
 
 The switch "learns" the MAC-address of each device connected to it and can thus forward network packets from one device to another. Thus, it operates on the data link layer (layer 2) of the OSI model (see TCP/IP). When receving a packet, it reads the source and destination MAC address and forwards it to the destination MAC address. Switches do not know anything about IP addresses. Except for special switches which also operate on the network layer (layer 3). These switches are called **layer-3 switches** or **multilayer switches** and have a routing table, just as routers do.
 
+Now that we have our hosts in our network connected via a switch, we need a router to be able to connect to other networks, e.g. a webserver in the internet. 
+
+### What does a Router do?
+
+A router connects networks with networks. Therefore a router does operate on the network layer (layer 3 of the OSI model) which means it works with IP addresses. In the packet it receives, it reads the destination IP address and forwards the packet to it. If the IP address is not on its own network, it forwards it to the router the network address belongs to. The router itself has a different IP address for each gateway port it has. And normally, this IP address is the first IP address in the network it is connected to on that port. 
+
 ## Routing Table
 
 Each router has a routing table which is like a map it uses to forward packets. 
