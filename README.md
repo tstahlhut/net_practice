@@ -1,5 +1,5 @@
 # net_practice
-A 42 project to learn about networks
+A 42 project that let's you dive deeper into System Administration. You learn about networks with special focus on subnetting and routing tables. 
 
 ## What is an IP Address?
 
