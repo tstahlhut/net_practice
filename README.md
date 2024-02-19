@@ -138,7 +138,7 @@ In a home network, normally, the first three octets stand for the network and th
 
 The router distributes the IP addresses in your home network. 
 DHCP is what makes this work. 
-Every IP address in most home network starts with 192.168.1. The router knows this thanks to the Netmask.
+Every IP address in most home network starts with 192.168.1. Or more generally speaking, the router most commonly has the first IP address after the network IP address (1 if we start with 0). The router knows this thanks to the Netmask.
 
 #### Netmask (Subnet Mask)
 
