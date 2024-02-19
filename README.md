@@ -1,9 +1,86 @@
 # net_practice
 A 42 project to learn about networks
 
-## Level 1: What is an IP Address?
+## What is an IP Address?
 
 IP address is short for Internet Protocol Address. It is the address which identifies a device in a computer network that uses the Internet Protocol suite (TCP/IP) for communication, such as the internet.
+
+<details> <summary> TCP/IP </summary>
+TCP/IP (Internet Protocol Suite) is a model for communication in computer networks. In the 1960's different models existed in each company but in the end, TCP/IP became the standard. Nowadays, every computer uses this model. 
+
+TCP/IP is based on 5 different layers:
+
+	Application
+	Transport
+	Network
+	Data Link
+	Physical
+
+At the time when it was not yet decided that TCP/IP was to be the model all use, there was another popular model: the OSI model (Open Systems Interconnection). It had 7 layers and these are the layers we still refer to today:
+
+	Application
+	Presentation
+	Session
+	Transport
+	Network
+	Data Link
+	Physical
+
+So, today TCP/IP's 5th layer is been referred to as layer 7 and layer 5 and 6 of the OSI model are included in layer 7:
+
+	[Layer 7:	Application
+				protocol, e.g. HTTP
+	 Layer 6:	Presentation -> how to present the data?
+								Data Format (filetypes, e.g. HTML, JPG, PDF)
+								Encryption (e.g. SSL)
+	 Layer 5:	Session		-> open up communication
+								e.g. L2TP, RTCP, H.245, Socks (Proxy)
+	] 
+							-> get data ready, put it in right format, open session
+
+	- Layer 4:	Transport 	-> choose protocol
+								TCP (more reliable: 3-way-handshake) or 
+								UDP (faster)
+							-> choose port
+								e.g. 443 for HTTPS, 80 for HTTP, 21 FTP, 22 SSH, 3389 RDP
+	- Layer 3:	Network		-> IP addresses; routers work on layer 3
+	- Layer 2:	Data Link	-> MAC-Addresses; switches and bridges work on layer 2
+	- Layer 1:	Physical	-> e.g. Ethernet cables; hubs and repeaters work primarily on layer 1 
+													(they just repeat electrical signals)
+
+
+<details> <summary> TCP (Transmission Control Protocol) </summary> 
+TCP is more reliable than UDP because it establishes a connection first. 
+This is called the 3-way Handshake:
+
+	1. SYN: Synchronize Sequence Number (source to destination: I want to establish a connection)
+	2. SYN/ACK (destination to source: acknowledged & sends sequence number)
+	3. ACK (source sends to destination: acknowledged)
+
+Thus, a reliable connection is established. Furthermore, TCP verifies if data reached destination. If it did not, it sends the data again </details>
+
+
+
+
+
+<details> <summary> Example: Encapsulation </summary>
+
+If we want to access a webpage, we use HTTP or HTTPS as protocol (Layer 7). This layer 7 is transferred down through all layers, until layer 1. This process is called encapsulation. A header with the necessary information for each layer is added to the data which is transferred.
+
+	Layer 7: which protocol?		HTTP 			HTTPS				= 	Data		+= Data
+	Layer 4: which port to use? 	HTTP: port 80	HTTPS: port 443		= L4 Header		 += Segment
+	Layer 3: which IP addresses?	IP addresses (my PC & webpage)		= L3 Header		   += Packet
+	Layer 2: which MAC addresses?	MAC addresses (my PC & my router)	= L2 Trailer & Header += Frame
+	Layer 1: send all the information (Frame) over wire
+
+
+When the router receives the frame, it de-encapsulates it, to get to the packet and the information of layer 3. It reads the destination IP address and changes the source and destination MAC address in layer 2 so that it is forwarded to the next switch which only reads the frame (layer 2). When it reaches its final destination the frame is de-encapsulated layer by layer until the right application reads the message and reacts to it. The encapsulation process starts again when forming the reply. 
+
+
+
+</details>
+
+</details>
 
 #### IPv4
 
@@ -126,7 +203,7 @@ You may also use any other IP address starting with 127 to test your network.
 
 </details>
 
-## Level 2: Welcome to Subnetting!
+## Welcome to Subnetting!
 
 		IPv4: 192.168.1.0
 		Mask: 255.255.255.0
@@ -396,6 +473,102 @@ And lastly, the fourth network for the guests:
 Be aware that the subnet mask changes depending on the range of the network. 
 
 </details>
+
+## Networks: TCP/IP, Hub, Switch, Router
+
+Now that we have established our networks by giving them a range of IP addresses, we need to connect the hosts inside a network and the networks to one another so that they can communicate with each other and exchange data. 
+
+Inside your __LAN__ (Local Area Network) you may connect all your devices via Ethernet Cables to a Switch.
+
+### What is a switch?
+
+A network switch is a networking hardware with multiple ports (8 to 80 and more). MMMMMMMMMMMMMost commo where you can most commonly plug in Ethernet cables. The switch is a network bridge that forwards data. It learns the MAC-address of each device connected to it and can thus forward network packets from one devide to another. Thus, it operates on the data link layer (layer 2) of the OSI model (see TCP/IP). When receving a packet, they read the source and destination MAC address and forward it to the destination MAC address. Switches do not know anything about IP addresses. Except for special switches which also operate on the network layer (layer 3). These switches are called **layer-3 switches** or **multilayer switches**.
+
+## Routing Table
+
+Each router has a routing table which is like a map it uses to forward packets. 
+
+
+The model for communcation which is used nowadays is TCP/IP.
+
+### TCP/IP (Internet Protocol Suite)
+
+TCP/IP (Internet Protocol Suite) is a model for communication in computer networks. In the 1960's different models existed in each company but in the end, TCP/IP became the standard. Nowadays, every computer uses this model. 
+
+TCP/IP is based on 5 different layers:
+
+	Application
+	Transport
+	Network
+	Data Link
+	Physical
+
+At the time when it was not yet decided that TCP/IP was to be the model all use, there was another popular model: the **OSI model (Open Systems Interconnection)**. It had 7 layers and these are the layers we still refer to today:
+
+	Layer 7:	Application
+	Layer 6:	Presentation
+	Layer 5:	Session
+	Layer 4:	Transport
+	Layer 3:	Network
+	Layer 2:	Data Link
+	Layer 1:	Physical
+
+So, today TCP/IP's 5th layer is been referred to as layer 7 and layer 5 and 6 of the OSI model are included in layer 7:
+
+	[Layer 7:	Application	 -> which application & protocol?
+								e.g. HTTP, HTTPS
+	 Layer 6:	Presentation -> how to present the data?
+								Data Format (filetypes, e.g. HTML, JPG, PDF)
+								Encryption (e.g. SSL)
+	 Layer 5:	Session		-> open up communication
+								e.g. L2TP, RTCP, H.245, Socks (Proxy)
+	] 
+							-> get data ready, put it in right format, open session
+
+	- Layer 4:	Transport 	-> choose protocol
+								TCP (more reliable: 3-way-handshake) or 
+								UDP (faster)
+							-> choose port
+								e.g. 443 for HTTPS, 80 for HTTP, 21 FTP, 22 SSH, 3389 RDP
+	- Layer 3:	Network		-> IP addresses; routers work on layer 3
+	- Layer 2:	Data Link	-> MAC-Addresses; switches and bridges work on layer 2
+	- Layer 1:	Physical	-> e.g. Ethernet cables; hubs and repeaters work primarily on layer 1 
+													(they just repeat electrical signals)
+
+
+<details> <summary> TCP (Transmission Control Protocol) </summary> 
+TCP is more reliable than UDP because it establishes a connection first. 
+This is called the 3-way Handshake:
+
+	1. SYN: Synchronize Sequence Number (source to destination: I want to establish a connection)
+	2. SYN/ACK (destination to source: acknowledged & sends sequence number)
+	3. ACK (source sends to destination: acknowledged)
+
+Thus, a reliable connection is established. Furthermore, TCP verifies if data reached destination. If it did not, it sends the data again </details>
+
+
+
+
+
+<details> <summary> Example: Encapsulation </summary>
+
+If we want to access a webpage, we use HTTP or HTTPS as protocol (Layer 7). This layer 7 is transferred down through all layers, until layer 1. This process is called encapsulation. A header with the necessary information for each layer is added to the data which is transferred.
+
+	Layer 7: which protocol?		HTTP 			HTTPS				= 	Data		+= Data
+	Layer 4: which port to use? 	HTTP: port 80	HTTPS: port 443		= L4 Header		 += Segment
+	Layer 3: which IP addresses?	IP addresses (my PC & webpage)		= L3 Header		   += Packet
+	Layer 2: which MAC addresses?	MAC addresses (my PC & my router)	= L2 Trailer & Header += Frame
+	Layer 1: send all the information (Frame) over wire
+
+
+When the router receives the frame, it de-encapsulates it, to get to the packet and the information of layer 3. It reads the destination IP address and changes the source and destination MAC address in layer 2 so that it is forwarded to the next switch which only reads the frame (layer 2). When it reaches its final destination the frame is de-encapsulated layer by layer until the right application reads the message and reacts to it. The encapsulation process starts again when forming the reply. 
+
+
+
+</details>
+
+
+
 
 
 		
