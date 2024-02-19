@@ -526,11 +526,15 @@ This way two routes per interface (port) will automatically be added to the rout
 
 **The local route (L)** is the exact IP address of the configured interface, it is the routers IP address on that interface. Therefore, the IP address is written as 192.168.1.1/32. (32 because all bits are fixed. It is an exact IP address and not an IP address to a whole network.) Thus, the router knows that when it receives a packet destined to that IP address it is for itself. 
 
-
-
 In order to see the routing table of a router use the following command:
 
 	show ip route
+
+#### Route Selection
+
+If the router receives a packet for an IP address that it has two or more routes to, it always chooses the most specific route. 
+
+For example: If the above router gets a packet for 192.168.1.1, it will not send it the network which includes 256 IP addresses but to chooses the local route which only includes this IP address.
 
 The model for communcation which is used nowadays is TCP/IP.
 
