@@ -500,9 +500,9 @@ The process of determining the path an IP packet should take is called **routing
 
 Each router has a routing table which is like a map it uses to forward IP packets. In this routing table, the router stores all the routes it knows. So, when an IP packet arrives, it searches for the destination IP address in its routing table and forwards it. If the IP address is not listed in the routing table, the router uses its default gateway.  
 
-Routers can learn new paths by two methods: dynamic routing and static routing. 
+Routers can learn new paths by two methods: dynamic routing and static routing. But before the learning starts, we pre-configure a router.
 
-<details> <summary> Pre-configure a router </summary>
+#### Pre-configure a router
 
 Go to global config
 
@@ -520,7 +520,13 @@ Configure interface(s) and enable it
 
        	show ip int br
 
-</details>
+This way two routes per interface (port) will automatically be added to the routing table: a **local route (L)** and a **connected route (C)**.
+
+**The connected route (C)** shows the route to the whole network that has been connected via that Ethernet port. For interface g0/0 the connected network would be 192.168.1.0/24. The router knows now that if it receives an IP packet to an IP address between 192.168.1.0 and 192.168.1.255, it should send it out of G0/0. 
+
+**The local route (L)** is the exact IP address of the configured interface, it is the routers IP address on that interface. Therefore, the IP address is written as 192.168.1.1/32. (32 because all bits are fixed. It is an exact IP address and not an IP address to a whole network.) Thus, the router knows that when it receives a packet destined to that IP address it is for itself. 
+
+
 
 In order to see the routing table of a router use the following command:
 
