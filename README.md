@@ -502,7 +502,7 @@ Each router has a routing table which is like a map it uses to forward IP packet
 
 Routers can learn new paths by two methods: dynamic routing and static routing. 
 
-#### Pre-configure a router
+<details> <summary> Pre-configure a router </summary>
 
 Go to global config
 
@@ -514,12 +514,17 @@ Configure interface(s) and enable it
  	ip address 192.168.1.1 255.255.255.0
   	no shutdown
 
-    	interface g0/1
+	interface g0/1
      	ip address 192.168.2.1 255.255.255.0
       	no shutdown
 
        	show ip int br
 
+</details>
+
+In order to see the routing table of a router use the following command:
+
+	show ip route
 
 The model for communcation which is used nowadays is TCP/IP.
 
