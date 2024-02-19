@@ -498,7 +498,12 @@ The process of determining the path an IP packet should take is called **routing
 
 ### Routing Table
 
-Each router has a routing table which is like a map it uses to forward IP packets. In this routing table, the router stores all the routes it knows. So, when an IP packet arrives, it searches for the destination IP address in its routing table and forwards it. If the IP address is not listed in the routing table, the router uses its default gateway.  
+Each router has a routing table which is like a map it uses to forward IP packets. In this routing table, the router stores all the routes it knows. So, when an IP packet arrives, it searches for the destination IP address in its routing table and forwards it (or keeps it, if it is for itself).
+
+Each route in the routing table is a an instruction. It tells the router what to do if a packet with destination IP address x comes in. 
+	- To reach destination in network x, send the packet to next router/switch y.
+ 	- If the network is directly connected, send it to the network.
+  	- If the address is your own IP address (local route), receive it yourself.
 
 Routers can learn new paths by two methods: dynamic routing and static routing. But before the learning starts, we pre-configure a router.
 
