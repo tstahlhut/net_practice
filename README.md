@@ -1,7 +1,7 @@
 # net_practice
 A 42 project that let's you dive deeper into System Administration. You learn about networks with special focus on subnetting and routing tables. 
 
-## What is an IP Address?
+## 1. What is an IP Address?
 
 IP address is short for Internet Protocol Address. It is the address which identifies a device in a computer network that uses the Internet Protocol suite (TCP/IP) for communication, such as the internet.
 
@@ -112,7 +112,7 @@ They are represented by 4 hexadecimal numbers in 8 groups, which is 8 times 16 b
 
 Nowadays, both versions (IPv4 and IPv6) are in use. 
 
-### Purpose
+### 1.1 Purpose
 
 As stated in the beginning, an IP address is used to __identify__ a device (in networking called a __host__) on a network which uses TCP/IP. To be more precise, to identify the devices network interface. 
 <details> <summary> Network Interface Controller </summary>
@@ -128,7 +128,7 @@ In the beginning, network interface controllers were implemented on expansion ca
 
 Furthermore, the IP address provides the __location__ of the host in the network so that a path from one host to another can be established. When communicating through this network, IP packets are send from one host to another host. In the IP packet's header is the IP address from the sender and the destination. 
 
-### The Structure: How to read an IPv4 address?
+### 1.2 The Structure: How to read an IPv4 address?
 
 IPv4 addresses can be split into two parts:  the **the network prefix** and the **host identifier** (or **interface identifier** in IPv6). The first bits are the most significant ones and identify a whole network or subnet, whereas the last bits are the least significant ones and identify a specific interface of a host on that network.
 
@@ -138,7 +138,7 @@ In a home network, normally, the first three octets stand for the network and th
 
 The router distributes the IP addresses in your home network. 
 DHCP is what makes this work. 
-Every IP address in a home network starts with 192.168.1. The router knows this thanks to the Netmask.
+Every IP address in most home network starts with 192.168.1. The router knows this thanks to the Netmask.
 
 #### Netmask (Subnet Mask)
 
@@ -203,14 +203,14 @@ You may also use any other IP address starting with 127 to test your network.
 
 </details>
 
-## Welcome to Subnetting!
+## 2. Welcome to Subnetting!
 
 		IPv4: 192.168.1.0
 		Mask: 255.255.255.0
 
 So far we know that a subnet mask like the above allows us a range of IP addresses between 192.168.1.0 and 192.168.1.255. Whereas the first (0) and the last (255) are reserved and the the second (1) typically stands for the router. We have 253 available IP addresses. But what if we need more hosts on our network or more networks? Then we enter the world of subnetting and with it the world of binary.
 
-### Bits and Bytes
+### 2.1 Bits and Bytes
 
 Needless to say, that IPv4 addresses are in reality 32 bits and thus in binary. In order to really work with IP addresses (keyword: subnetting) you need to calculate with them in binary. 
 
@@ -270,7 +270,9 @@ This indicates the number of bits reserved for the network. Thus, the two repres
 
 		192.168.1.0/24
 
-### How to calculate the number of hosts in a network?
+### 2.2. Building Networks
+
+#### How to calculate the number of hosts in a network?
 
 If you want to know the amount of host IP addresses a network can have, you count the zeros in the subnet mask and take 2 to the power of the number of zeros:
 
@@ -283,7 +285,7 @@ Then you substract 2, one for the network address and one for the broadcasting a
 
 This network allows 254 host IP addresses. But what if we need more?
 
-### How to broaden the network to get more host IP addresses
+#### How to broaden the network to get more host IP addresses
 
 If we need more IP addresses, we have to do subnetting, which just means that we take away bits reserved for the network (the ones):
 
@@ -292,7 +294,7 @@ If we need more IP addresses, we have to do subnetting, which just means that we
 
 This subnet mask allows us 510 (2^9 - 2) IP addresses for our home network. 
 
-### How to divide one network into several?
+#### How to divide one network into several?
 
 If we have the following network but need several networks, we can divide that network.
 
@@ -379,7 +381,7 @@ For our five networks, we take the first five:
 
 </details>
 
-### Reverse Subnetting
+### 2.3 Reverse Subnetting
 
 Reverse subnetting is when you have an IP address, subnet mask and need to know if another IP address is part of the network or what the broadcast IP address is of that network. To figure this out you need ot find out the range of the network the given IP address lives in. To do that follow these steps:
 
@@ -423,7 +425,7 @@ Our IP address is part of the third network. And as we know that the last IP add
 
 </details>
 
-### VLSM (Variable Length Subnet Mask(ing))
+### 2.4 VLSM (Variable Length Subnet Mask(ing))
 
 What if we need subnetworks of different sizes. How do we divide a network then?
 
@@ -474,7 +476,7 @@ Be aware that the subnet mask changes depending on the range of the network.
 
 </details>
 
-## Networks: TCP/IP, Hub, Switch, Router
+## 3. Networks: TCP/IP, Hub, Switch, Router
 
 Now that we have established our networks by giving them a range of IP addresses, we need to connect the hosts inside a network and the networks to one another so that they can communicate with each other and exchange data. 
 
@@ -482,7 +484,9 @@ Inside your __LAN__ (Local Area Network) you may connect all your devices via Et
 
 ### What is a switch?
 
-A network switch is a networking hardware with multiple ports (8 to 80 and more). MMMMMMMMMMMMMost commo where you can most commonly plug in Ethernet cables. The switch is a network bridge that forwards data. It learns the MAC-address of each device connected to it and can thus forward network packets from one devide to another. Thus, it operates on the data link layer (layer 2) of the OSI model (see TCP/IP). When receving a packet, they read the source and destination MAC address and forward it to the destination MAC address. Switches do not know anything about IP addresses. Except for special switches which also operate on the network layer (layer 3). These switches are called **layer-3 switches** or **multilayer switches**.
+A network switch is a networking hardware with multiple ports (8 to 80 and more). Most commonly, the ports are made for plugging in Ethernet cables. A switch is used to connect the hosts of a network to each other. It is normally the first connector in a network. It is thus a network bridge that forwards data.
+
+The switch "learns" the MAC-address of each device connected to it and can thus forward network packets from one device to another. Thus, it operates on the data link layer (layer 2) of the OSI model (see TCP/IP). When receving a packet, it reads the source and destination MAC address and forwards it to the destination MAC address. Switches do not know anything about IP addresses. Except for special switches which also operate on the network layer (layer 3). These switches are called **layer-3 switches** or **multilayer switches** and have a routing table, just as routers do.
 
 ## Routing Table
 
