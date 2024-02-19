@@ -494,6 +494,8 @@ Now that we have our hosts in our network connected via a switch, we need a rout
 
 A router connects networks with networks. Therefore a router does operate on the network layer (layer 3 of the OSI model) which means it works with IP addresses. In the packet it receives, it reads the destination IP address and forwards the packet to it. If the IP address is not on its own network, it forwards it to the router the network address belongs to. The router itself has a different IP address for each gateway port it has. And normally, this IP address is the first IP address in the network it is connected to on that port. 
 
+The process of determining the path an IP packet should take is called **routing**. For this process routers use a **routing table**.
+
 ## Routing Table
 
 Each router has a routing table which is like a map it uses to forward packets. 
