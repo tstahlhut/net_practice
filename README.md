@@ -534,7 +534,9 @@ In order to see the routing table of a router use the following command:
 
 If the router receives a packet for an IP address that it has two or more routes to, it always chooses the most specific route. 
 
-For example: If the above router gets a packet for 192.168.1.1, it will not send it the network which includes 256 IP addresses but to chooses the local route which only includes this IP address.
+For example: If the above router gets a packet for 192.168.1.1, it will not send it the network which includes 256 IP addresses but to chooses the local route which only includes this IP address. It will receive it for itself and open (de-encapsulate) it. 
+
+If the router finds no matching route, it drops the package. (Unlike a switch which floods the network, searching for the right address.)
 
 The model for communcation which is used nowadays is TCP/IP.
 
