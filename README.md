@@ -579,6 +579,9 @@ Note, however, that in this case the static route shown in the routing table wou
 		R1(config)# ip route 192.168.3.0 255.255.255.0 g0/0 192.168.4.1
 Then the static route will be shown as "via" in the routing table. 
 
+Note: When doing levels 6-9 in 42's net_practice, the routes that have to be filled in, refer to the static routes. You do not need to fill in the local or connected routes.
+Also, be aware in level 9 that 192.168.etc is an IP address of a local network. You cannot give this address to some router in the internet to forward a packet to you. Then you need another (public?) IP address.
+
 The model for communcation which is used nowadays is TCP/IP.
 
 ### TCP/IP (Internet Protocol Suite)
