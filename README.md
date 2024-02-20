@@ -562,7 +562,7 @@ In our example it would be:
 
 I configured the static routes for both routers, so that the two networks can communicate with each other. If we configure the static route only on one router, one network can send packets to the other network but that network cannot respond. 
 
-If we look into the routing table, there is now a new route (S).
+If we look into the routing table, there is now a new route (S). By pinging we can test if the two networks are connected. If the ping is successful we know that there is a two-way reachability: network 1 can reach network 3 and vice versa.
 
 The model for communcation which is used nowadays is TCP/IP.
 
