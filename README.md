@@ -501,7 +501,7 @@ The process of determining the path an IP packet should take is called **routing
 Each router has a routing table which is like a map it uses to forward IP packets. In this routing table, the router stores all the routes it knows. So, when an IP packet arrives, it searches for the destination IP address in its routing table and forwards it (or keeps it, if it is for itself).
 
 Each route in the routing table is a an instruction. It tells the router what to do if a packet with destination IP address x comes in. 
-	- To reach destination in network x, send the packet to next router/switch y.
+	- To reach destination in network x, send the packet to next router y.
  	- If the network is directly connected, send it to the network.
   	- If the address is your own IP address (local route), receive it yourself.
 
@@ -546,6 +546,23 @@ If the router finds no matching route, it drops the package. (Unlike a switch wh
 #### Default Gateway
 
 The router is the default gateway for the hosts connected to it. All hosts in a network are connected to each other and can send packets to one another. If, however, a host wants to send a packet to an IP address outside their network, it will send it to the default gateway, which is the router. The default gateway is also called the default route, which is 0.0.0.0/0 which means that it includes all IP addresses. The default route is the least specific route. It will therefore only be chosen if there is no more specific route. 
+
+#### Static Routes
+
+A host of a network (192.168.1.10) sends a packet to its default gateway, the router (192.168.1.1), to forward it to the host (192.168.3.8) of another network (192.168.3.0/24). However, the router does not find any match in its routing table for that IP address (192.168.3.8). The router drops the packet. So, if we want to connect two networks via a router, we have to configure the routes. This is called **static route configuration**. 
+
+We have to tell the router what to do if it receives a packet for network 192.168.3.0/24. It should forward it to the next-hop on that route, which is the next router, let's say 192.168.4.1. Let's say that our router is R1 and the router it should forward the packet to is called R2. To configure static routes for any router, the command is:
+
+		R(config)# ip route ip_address netmask next-hop
+
+In our example it would be:
+
+ 		R1(config)# ip route 192.168.3.0 255.255.255.0 192.168.4.1
+   		R2(config)# ip route 192.168.1.0 255.255.255.0 192.168.1.1
+
+I configured the static routes for both routers, so that the two networks can communicate with each other. If we configure the static route only on one router, one network can send packets to the other network but that network cannot respond. 
+
+If we look into the routing table, there is now a new route (S).
 
 The model for communcation which is used nowadays is TCP/IP.
 
