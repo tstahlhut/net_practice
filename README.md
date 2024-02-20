@@ -551,18 +551,33 @@ The router is the default gateway for the hosts connected to it. All hosts in a 
 
 A host of a network (192.168.1.10) sends a packet to its default gateway, the router (192.168.1.1), to forward it to the host (192.168.3.8) of another network (192.168.3.0/24). However, the router does not find any match in its routing table for that IP address (192.168.3.8). The router drops the packet. So, if we want to connect two networks via a router, we have to configure the routes. This is called **static route configuration**. 
 
-We have to tell the router what to do if it receives a packet for network 192.168.3.0/24. It should forward it to the next-hop on that route, which is the next router, let's say 192.168.4.1. Let's say that our router is R1 and the router it should forward the packet to is called R2. To configure static routes for any router, the command is:
+We have to tell the router what to do if it receives a packet for network 192.168.3.0/24. It should forward it to the next-hop on that route, which is the next router, let's say 192.168.4.1 and call it R2. R2 is connected to R3 which is the router for the network we want to reach. To configure static routes for any router, the command is:
 
 		R(config)# ip route ip_address netmask next-hop
 
 In our example it would be:
 
  		R1(config)# ip route 192.168.3.0 255.255.255.0 192.168.4.1
-   		R2(config)# ip route 192.168.1.0 255.255.255.0 192.168.1.1
+   		R2(config)# ip route 192.168.4.0 255.255.255.0 192.168.3.1
 
-I configured the static routes for both routers, so that the two networks can communicate with each other. If we configure the static route only on one router, one network can send packets to the other network but that network cannot respond. 
+If we look into the routing table of our router (R1), there is now a new route (S). Now our host can send a packet to the host in the other network (192.168.3.8). But when that other host wants to reply, R3 drops the packet. R3 does not know where to send it. So, we have to configure the static route for both ways.
 
-If we look into the routing table, there is now a new route (S). By pinging we can test if the two networks are connected. If the ping is successful we know that there is a two-way reachability: network 1 can reach network 3 and vice versa.
+		R2(config)# ip route 192.168.1.0 255.255.255.0 192.168.1.1
+     		R3(config)# ip route 192.168.1.0 255.255.255.0 192.168.4.1
+       
+Now, we configured the static routes for all three routers, so that the two networks can communicate with each other. By pinging we can test if the two networks are connected. If the ping is successful we know that there is a two-way reachability: network 1 can reach network 3 and vice versa.
+
+You can also configure the static route by telling the router not the next-hop but through which of its interfaces it should send it out.
+
+		R(config)# ip route ip_address netmask exit-interface
+
+If R1 connects to R2 by R1's interface g0/0, you would type:
+
+		R1(config)# ip route 192.168.3.0 255.255.255.0 g0/0
+Note, however, that in this case the static route shown in the routing table would be marked as "directly connected" instead of "via". You can also specify both, the exit-interface and the next-hop:
+
+		R1(config)# ip route 192.168.3.0 255.255.255.0 g0/0 192.168.4.1
+Then the static route will be shown as "via" in the routing table. 
 
 The model for communcation which is used nowadays is TCP/IP.
 
