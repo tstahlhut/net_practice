@@ -492,7 +492,7 @@ Now that we have our hosts in our network connected via a switch, we need a rout
 
 ### What does a Router do?
 
-A router connects networks with networks. Therefore a router does operate on the network layer (layer 3 of the OSI model) which means it works with IP addresses. In the packet it receives, it reads the destination IP address and forwards the packet to it. If the IP address is not on its own network, it forwards it to the router the network address belongs to. The router itself has a different IP address for each gateway port it has. And normally, this IP address is the first IP address in the network it is connected to on that port. 
+A router connects networks with networks. If a host wants to send a packet to an IP address outside their own network, it will send it to the router which is therefore also called the default gateway. Therefore a router does operate on the network layer (layer 3 of the OSI model) which means it works with IP addresses. In the packet it receives, it reads the destination IP address and forwards the packet to it. If the IP address is not on its own network, it forwards it to the router the network address belongs to. The router itself has a different IP address for each interface it has. And normally, this IP address is the first IP address in the network it is connected to on that port.  
 
 The process of determining the path an IP packet should take is called **routing**. For this process routers use a **routing table**.
 
@@ -542,6 +542,10 @@ If the router receives a packet for an IP address that it has two or more routes
 For example: If the above router gets a packet for 192.168.1.1, it will not send it the network which includes 256 IP addresses but to chooses the local route which only includes this IP address. It will receive it for itself and open (de-encapsulate) it. 
 
 If the router finds no matching route, it drops the package. (Unlike a switch which floods the network, searching for the right address.)
+
+#### Default Gateway
+
+The router is the default gateway for the hosts connected to it. All hosts in a network are connected to each other and can send packets to one another. If, however, a host wants to send a packet to an IP address outside their network, it will send it to the default gateway, which is the router. The default gateway is also called the default route, which is 0.0.0.0/0 which means that it includes all IP addresses. The default route is the least specific route. It will therefore only be chosen if there is no more specific route. 
 
 The model for communcation which is used nowadays is TCP/IP.
 
