@@ -1,5 +1,5 @@
 # net_practice
-A 42 project that let's you dive deeper into System Administration. You learn about networks with special focus on subnetting and routing tables. 
+Net_pratice is a project of the core curriculum of 42 school where you learn about networks in general and TCP/IP addressing, subnetting and routing in special.
 
 ## 1. What is an IP Address?
 
