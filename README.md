@@ -1,6 +1,9 @@
 # Net_Practice
 Net_pratice is a project of the core curriculum of 42 school which let's you dive deeper into system administration and discover networking. Net_Practice is about networks in general and TCP/IP addressing, subnetting and routing in specific. The project consists of 10 exercises where you have to configure small-scale networks in a training interface. In this Readme I have gathered all the relevant information you need in order to understand TCP/IP addressing and pass the module. 
 
+## Status
+Project passed: 15.04.2024. Grade: 100% (no bonus available)
+
 ## 1. What is an IP Address?
 
 IP address is short for Internet Protocol Address. It is the address which identifies a device in a computer network that uses the Internet Protocol suite (TCP/IP) for communication, such as the internet.
