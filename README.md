@@ -8,7 +8,9 @@ Here you see an example snipet of one of the exercises of Net_Practice (the exer
 ## Status
 Project passed: 15.04.2024. Grade: 100% (no bonus available)
 
-## 1. What is an IP Address?
+## Background Knowledge
+
+### 1. What is an IP Address?
 
 IP address is short for Internet Protocol Address. It is the address which identifies a device in a computer network that uses the Internet Protocol suite (TCP/IP) for communication, such as the internet.
 
@@ -119,7 +121,7 @@ They are represented by 4 hexadecimal numbers in 8 groups, which is 8 times 16 b
 
 Nowadays, both versions (IPv4 and IPv6) are in use. 
 
-### 1.1 Purpose
+#### 1.1 Purpose
 
 As stated in the beginning, an IP address is used to __identify__ a device (in networking called a __host__) on a network which uses TCP/IP. To be more precise, to identify the devices network interface. 
 <details> <summary> Network Interface Controller </summary>
@@ -135,7 +137,7 @@ In the beginning, network interface controllers were implemented on expansion ca
 
 Furthermore, the IP address provides the __location__ of the host in the network so that a path from one host to another can be established. When communicating through this network, IP packets are send from one host to another host. In the IP packet's header is the IP address from the sender and the destination. 
 
-### 1.2 The Structure: How to read an IPv4 address?
+#### 1.2 The Structure: How to read an IPv4 address?
 
 IPv4 addresses can be split into two parts:  the **the network prefix** and the **host identifier** (or **interface identifier** in IPv6). The first bits are the most significant ones and identify a whole network or subnet, whereas the last bits are the least significant ones and identify a specific interface of a host on that network.
 
@@ -210,14 +212,14 @@ You may also use any other IP address starting with 127 to test your network.
 
 </details>
 
-## 2. Welcome to Subnetting!
+### 2. Welcome to Subnetting!
 
 		IPv4: 192.168.1.0
 		Mask: 255.255.255.0
 
 So far we know that a subnet mask like the above allows us a range of IP addresses between 192.168.1.0 and 192.168.1.255. Whereas the first (0) and the last (255) are reserved and the the second (1) typically stands for the router. We have 253 available IP addresses. But what if we need more hosts on our network or more networks? Then we enter the world of subnetting and with it the world of binary.
 
-### 2.1 Bits and Bytes
+#### 2.1 Bits and Bytes
 
 Needless to say, that IPv4 addresses are in reality 32 bits and thus in binary. In order to really work with IP addresses (keyword: subnetting) you need to calculate with them in binary. 
 
@@ -277,9 +279,9 @@ This indicates the number of bits reserved for the network. Thus, the two repres
 
 		192.168.1.0/24
 
-### 2.2. Building Networks
+#### 2.2. Building Networks
 
-#### How to calculate the number of hosts in a network?
+##### How to calculate the number of hosts in a network?
 
 If you want to know the amount of host IP addresses a network can have, you count the zeros in the subnet mask and take 2 to the power of the number of zeros:
 
@@ -292,7 +294,7 @@ Then you substract 2, one for the network address and one for the broadcasting a
 
 This network allows 254 host IP addresses. But what if we need more?
 
-#### How to broaden the network to get more host IP addresses
+##### How to broaden the network to get more host IP addresses
 
 If we need more IP addresses, we have to do subnetting, which just means that we take away bits reserved for the network (the ones):
 
@@ -301,7 +303,7 @@ If we need more IP addresses, we have to do subnetting, which just means that we
 
 This subnet mask allows us 510 (2^9 - 2) IP addresses for our home network. 
 
-#### How to divide one network into several?
+##### How to divide one network into several?
 
 If we have the following network but need several networks, we can divide that network.
 
@@ -388,7 +390,7 @@ For our five networks, we take the first five:
 
 </details>
 
-### 2.3 Reverse Subnetting
+#### 2.3 Reverse Subnetting
 
 Reverse subnetting is when you have an IP address, subnet mask and need to know if another IP address is part of the network or what the broadcast IP address is of that network. To figure this out you need ot find out the range of the network the given IP address lives in. To do that follow these steps:
 
@@ -432,7 +434,7 @@ Our IP address is part of the third network. And as we know that the last IP add
 
 </details>
 
-### 2.4 VLSM (Variable Length Subnet Mask(ing))
+#### 2.4 VLSM (Variable Length Subnet Mask(ing))
 
 What if we need subnetworks of different sizes. How do we divide a network then?
 
@@ -483,13 +485,13 @@ Be aware that the subnet mask changes depending on the range of the network.
 
 </details>
 
-## 3. Networks: TCP/IP, Hub, Switch, Router
+### 3. Networks: TCP/IP, Hub, Switch, Router
 
 Now that we have established our networks by giving them a range of IP addresses, we need to connect the hosts inside a network and the networks to one another so that they can communicate with each other and exchange data. 
 
 Inside your __LAN__ (Local Area Network) you may connect all your devices via Ethernet Cables to a Switch.
 
-### What is a switch?
+#### What is a switch?
 
 A network switch is a networking hardware with multiple ports (8 to 80 and more). Most commonly, the ports are made for plugging in Ethernet cables. A switch is used to connect the hosts of a network to each other. It is normally the first connector in a network. It is thus a network bridge that forwards data.
 
@@ -497,13 +499,13 @@ The switch "learns" the MAC-address of each device connected to it and can thus 
 
 Now that we have our hosts in our network connected via a switch, we need a router to be able to connect to other networks, e.g. a webserver in the internet. 
 
-### What does a Router do?
+#### What does a Router do?
 
 A router connects networks with networks. If a host wants to send a packet to an IP address outside their own network, it will send it to the router which is therefore also called the default gateway. Therefore a router does operate on the network layer (layer 3 of the OSI model) which means it works with IP addresses. In the packet it receives, it reads the destination IP address and forwards the packet to it. If the IP address is not on its own network, it forwards it to the router the network address belongs to. The router itself has a different IP address for each interface it has. And normally, this IP address is the first IP address in the network it is connected to on that port.  
 
 The process of determining the path an IP packet should take is called **routing**. For this process routers use a **routing table**.
 
-### Routing Table
+#### Routing Table
 
 Each router has a routing table which is like a map it uses to forward IP packets. In this routing table, the router stores all the routes it knows. So, when an IP packet arrives, it searches for the destination IP address in its routing table and forwards it (or keeps it, if it is for itself).
 
@@ -591,7 +593,7 @@ Also, be aware in level 9 that 192.168.etc is an IP address of a local network. 
 
 The model for communcation which is used nowadays is TCP/IP.
 
-### TCP/IP (Internet Protocol Suite)
+#### TCP/IP (Internet Protocol Suite)
 
 TCP/IP (Internet Protocol Suite) is a model for communication in computer networks. In the 1960's different models existed in each company but in the end, TCP/IP became the standard. Nowadays, every computer uses this model. 
 
